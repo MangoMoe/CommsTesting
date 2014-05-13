@@ -2,6 +2,7 @@ package testReceivePacket;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
 
 public class ReceiverThread  extends Thread {
 
@@ -28,8 +29,8 @@ public class ReceiverThread  extends Thread {
 	                // receive request
 	                DatagramPacket packet = new DatagramPacket(buf, buf.length);
 	                socket.receive(packet);
-	                System.out.println("Packet Recieved: " + HeaderType.getHeader(buf[0]));
-	                System.out.println(byteArrayToHex(buf));
+	                System.out.println("Packet Recieved: " + HeaderType.getHeader(buf[0]) + "	value: " + getValue(buf));	// output header type and value from buffer
+	                System.out.println(byteArrayToHex(buf));	//output packet buffer in hexidecimal
 
 	                // stuff for sending response
 	                /*buf = dString.getBytes();
@@ -56,5 +57,13 @@ public class ReceiverThread  extends Thread {
     	   }
     	   return sb.toString();
     	}
+	    
+	    int getValue(byte[] a)	// get int value from byte buffer
+	    {
+		    ByteBuffer buffer = ByteBuffer.allocate(4);	// 4 bytes
+	    	buffer.put(a, 1, 4);	// read last four bytes from input buffer
+	    	buffer.flip();
+	    	return buffer.getInt();
+	    }
 	    
 }
