@@ -21,10 +21,9 @@ public class ReceiverThread  extends Thread {
 	    }
 	    	
 	    public void run() {
-
+            byte[] buf = new byte[3];
 	        while (!shutDown) {
 	            try {
-	                byte[] buf = new byte[5];
 
 	                // receive request
 	                DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -58,12 +57,12 @@ public class ReceiverThread  extends Thread {
     	   return sb.toString();
     	}
 	    
-	    int getValue(byte[] a)	// get int value from byte buffer
+	    short getValue(byte[] a)	// get int value from byte buffer
 	    {
-		    ByteBuffer buffer = ByteBuffer.allocate(4);	// 4 bytes
-	    	buffer.put(a, 1, 4);	// read last four bytes from input buffer
+		    ByteBuffer buffer = ByteBuffer.allocate(2);	// 2 bytes
+	    	buffer.put(a, 1, 2);	// read last two bytes from input buffer
 	    	buffer.flip();
-	    	return buffer.getInt();
+	    	return buffer.getShort();
 	    }
 	    
 }
